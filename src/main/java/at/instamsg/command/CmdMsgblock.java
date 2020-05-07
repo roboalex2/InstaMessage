@@ -43,6 +43,11 @@ public class CmdMsgblock extends Command implements TabExecutor {
             return;
         }
 
+        if(target == player) {
+            sender.sendMessage(new TextComponent("§7[§e!§7] §cDu kannst dich selbst nicht sperren."));
+            return;
+        }
+
         PlayerData playerData = manager.getPlayerData(player);
         playerData.addBlockedPlayer(target);
         sender.sendMessage(new TextComponent("§7[§e!§7] §7Der Spieler ist nun §egesperrt§7."));

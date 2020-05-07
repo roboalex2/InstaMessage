@@ -43,6 +43,11 @@ public class CmdMsg extends Command implements TabExecutor {
             return;
         }
 
+        if(target == player) {
+            sender.sendMessage(new TextComponent("§7[§e!§7] §cDu kannst dir selbst keine Nachricht schicken."));
+            return;
+        }
+
         PlayerData targetData = manager.getPlayerData(target);
         if(!targetData.canReceiveFrom(player)) {
             sender.sendMessage(new TextComponent("§7[§e!§7] §cDer Spieler hat Privatnachrichten abgeschalten oder dich geblockt."));

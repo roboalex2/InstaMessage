@@ -64,7 +64,7 @@ public class CmdR extends Command implements TabExecutor {
 
         StringBuilder messageBuilder = new StringBuilder();
         int size = args.length;
-        for(int i = 1; i < size; i++) {
+        for(int i = 0; i < size; i++) {
             messageBuilder.append(args[i] + " ");
         }
         String message = messageBuilder.substring(0, messageBuilder.length() - 1).replace("§", "&");

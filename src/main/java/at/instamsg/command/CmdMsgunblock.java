@@ -42,6 +42,11 @@ public class CmdMsgunblock extends Command implements TabExecutor {
             return;
         }
 
+        if(target == player) {
+            sender.sendMessage(new TextComponent("§7[§e!§7] §cDu kannst dich selbst nicht entsperren."));
+            return;
+        }
+
         PlayerData playerData = manager.getPlayerData(player);
         playerData.removeBlockedPlayer(target);
         sender.sendMessage(new TextComponent("§7[§e!§7] §7Der Spieler ist nun §eentsperrt§7."));
