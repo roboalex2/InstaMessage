@@ -68,7 +68,7 @@ public class PlayerDataManager {
                 data.setUuid(uuid);
                 return data;
             }
-        }catch (IOException e) {
+        }catch (IOException | NullPointerException e) {
             e.printStackTrace();
             ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Something strange happened. " +
                     "Unable to read players data file. Using default. " +

@@ -4,15 +4,12 @@ import at.instamsg.main.Main;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashSet;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class PlayerData {
+public class PlayerData implements Serializable {
 
     private String uuid;
     private boolean msgReceiveEnabled = true;
@@ -84,10 +81,12 @@ public class PlayerData {
 
 
     private void save() {
+        PlayerData eigen = this;
         ProxyServer.getInstance().getScheduler().runAsync(Main.MAIN, new Runnable() {
             @Override
             public void run() {
-                synchronized (this) {
+
+                synchronized (eigen) {
                     File file = new File(ProxyServer.getInstance().getPluginsFolder().getPath()
                             + File.separator + "InstaMessage" + File.separator + "players" + File.separator
                             + uuid + ".json");
@@ -95,7 +94,7 @@ public class PlayerData {
 
                     try {
                         BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-                        bw.write(PlayerDataManager.GSON.toJson(this));
+                        bw.write(PlayerDataManager.GSON.toJson(eigen));
                         bw.close();
                     } catch (IOException e) {
                         e.printStackTrace();
