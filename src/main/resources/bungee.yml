@@ -1,0 +1,5 @@
+name: InstaMessage
+main: at.instamsg.main.Main
+description: /msg /w /tell /r System
+author: roboalex2
+version: ${project.version}
