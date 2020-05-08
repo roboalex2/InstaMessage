@@ -24,28 +24,29 @@ public class CmdMsgtoggle extends Command implements TabExecutor {
 
     public void execute(CommandSender sender, String[] args) {
 
-        ProxiedPlayer player = null;
+        ProxiedPlayer player;
         if (sender instanceof ProxiedPlayer) {
             player = (ProxiedPlayer) sender;
         } else {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §cNur ingame möglich."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §cNur ingame möglich.")));
             return;
         }
 
         PlayerData playerData = manager.getPlayerData(player);
         if(playerData.isMsgReceiveEnabled()) {
             playerData.setCanReceiveMessage(false);
-            sender.sendMessage(new TextComponent("§7[§e!§7] §7Du erhältst nun §ekeine Privatnachrichten §7mehr."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §7Du erhältst nun §ekeine Privatnachrichten §7mehr.")));
         } else {
             playerData.setCanReceiveMessage(true);
-            sender.sendMessage(new TextComponent("§7[§e!§7] §7Du erhältst nun §ewieder Privatnachrichten§7."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §7Du erhältst nun §ewieder Privatnachrichten§7.")));
         }
-
-        return;
     }
 
 
     public Iterable<String> onTabComplete(CommandSender arg0, String[] arg1) {
-        return new ArrayList<String>();
+        return new ArrayList<>();
     }
 }

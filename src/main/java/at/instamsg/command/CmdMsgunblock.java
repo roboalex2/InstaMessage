@@ -23,41 +23,44 @@ public class CmdMsgunblock extends Command implements TabExecutor {
 
     public void execute(CommandSender sender, String[] args) {
 
-        ProxiedPlayer player = null;
+        ProxiedPlayer player;
         if (sender instanceof ProxiedPlayer) {
             player = (ProxiedPlayer) sender;
         } else {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §cNur ingame möglich."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §cNur ingame möglich.")));
             return;
         }
 
         if(args.length < 1) {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §cBitte beachte die Syntax: /msgunblock <spieler>"));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §cBitte beachte die Syntax: /msgunblock <spieler>")));
             return;
         }
 
         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
         if(target == null) {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §cDer Spieler ist nicht online."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §cDer Spieler ist nicht online.")));
             return;
         }
 
         if(target == player) {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §cDu kannst dich selbst nicht entsperren."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §cDu kannst dich selbst nicht entsperren.")));
             return;
         }
 
         PlayerData playerData = manager.getPlayerData(player);
         playerData.removeBlockedPlayer(target);
-        sender.sendMessage(new TextComponent("§7[§e!§7] §7Der Spieler ist nun §eentsperrt§7."));
-
-        return;
+        sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                "§7[§e!§7] §7Der Spieler ist nun §eentsperrt§7.")));
     }
 
 
     public Iterable<String> onTabComplete(CommandSender arg0, String[] arg1)
     {
-        ArrayList<String> players = new ArrayList();
+        ArrayList<String> players = new ArrayList<>();
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             players.add(player.getName());
         }

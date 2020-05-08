@@ -11,6 +11,7 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CmdMsg extends Command implements TabExecutor {
 
@@ -33,24 +34,28 @@ public class CmdMsg extends Command implements TabExecutor {
         }
 
         if(args.length < 2) {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §7Bitte beachte die Syntax: §c/msg <Spieler> <Nachricht>"));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §7Bitte beachte die Syntax: §c/msg <Spieler> <Nachricht>")));
             return;
         }
 
         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
         if(target == null) {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §cDer Spieler ist nicht online."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §cDer Spieler ist nicht online.")));
             return;
         }
 
         if(target == player) {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §cDu kannst dir selbst keine Nachricht schicken."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §cDu kannst dir selbst keine Nachricht schicken.")));
             return;
         }
 
         PlayerData targetData = manager.getPlayerData(target);
         if(!targetData.canReceiveFrom(player)) {
-            sender.sendMessage(new TextComponent("§7[§e!§7] §cDer Spieler hat Privatnachrichten abgeschalten oder dich geblockt."));
+            sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                    "§7[§e!§7] §cDer Spieler hat Privatnachrichten abgeschalten oder dich geblockt.")));
             return;
         }
 
@@ -58,15 +63,17 @@ public class CmdMsg extends Command implements TabExecutor {
         StringBuilder messageBuilder = new StringBuilder();
         int size = args.length;
         for(int i = 1; i < size; i++) {
-            messageBuilder.append(args[i] + " ");
+            messageBuilder.append(args[i]).append(" ");
         }
         String message = messageBuilder.substring(0, messageBuilder.length() - 1).replace("§", "&");
 
         if(sender.hasPermission("instacube.chatcolormsg"))
             message = ChatColor.translateAlternateColorCodes('&', message);
 
-        target.sendMessage(new TextComponent(String.format("§e[§6%s §e» §cmir§e]§7 %s", senderName, message)));
-        sender.sendMessage(new TextComponent(String.format("§e[§cich §e» §6%s§e]§7 %s", target.getDisplayName(), message)));
+        target.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                String.format("§e[§6%s §e» §cmir§e]§7 %s", senderName, message))));
+        sender.sendMessage(new TextComponent(TextComponent.fromLegacyText(
+                String.format("§e[§cich §e» §6%s§e]§7 %s", target.getDisplayName(), message))));
 
         if(player != null){
             targetData.setLastChatPartner(player.getUniqueId());
@@ -74,15 +81,13 @@ public class CmdMsg extends Command implements TabExecutor {
             PlayerData playerData = manager.getPlayerData(player);
             playerData.setLastChatPartner(target.getUniqueId());
         }
-
-        return;
     }
 
 
     public Iterable<String> onTabComplete(CommandSender arg0, String[] arg1)
     {
-        if(arg1.length < 2) return new ArrayList<String>();
-        ArrayList<String> players = new ArrayList();
+        if(arg1.length < 2) return new ArrayList<>();
+        ArrayList<String> players = new ArrayList<>();
         for (ProxiedPlayer player : ProxyServer.getInstance().getPlayers()) {
             players.add(player.getName());
         }
