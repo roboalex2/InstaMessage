@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class CmdR extends Command implements TabExecutor {
 
-    private PlayerDataManager manager;
+    private final PlayerDataManager manager;
 
     public CmdR() {
         super("r", "instacube.msg");

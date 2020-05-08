@@ -13,7 +13,7 @@ public class PlayerData implements Serializable {
 
     private String uuid;
     private boolean msgReceiveEnabled = true;
-    private HashSet<String> blockedPlayers = new HashSet<>();
+    private final HashSet<String> blockedPlayers = new HashSet<>();
     private transient UUID lastChatPartner;
 
     PlayerData(String uuid) {
@@ -56,9 +56,7 @@ public class PlayerData implements Serializable {
         if(sender == null) return true;
 
         if(!isMsgReceiveEnabled()) return false;
-        if(getBlockedPlayers().contains(sender.getUniqueId().toString())) return false;
-
-        return true;
+        return !getBlockedPlayers().contains(sender.getUniqueId().toString());
     }
 
 
@@ -82,25 +80,22 @@ public class PlayerData implements Serializable {
 
     private void save() {
         PlayerData eigen = this;
-        ProxyServer.getInstance().getScheduler().runAsync(Main.MAIN, new Runnable() {
-            @Override
-            public void run() {
+        ProxyServer.getInstance().getScheduler().runAsync(Main.MAIN, () -> {
 
-                synchronized (eigen) {
-                    File file = new File(ProxyServer.getInstance().getPluginsFolder().getPath()
-                            + File.separator + "InstaMessage" + File.separator + "players" + File.separator
-                            + uuid + ".json");
-                    file.getParentFile().mkdirs();
+            synchronized (eigen) {
+                File file = new File(ProxyServer.getInstance().getPluginsFolder().getPath()
+                        + File.separator + "InstaMessage" + File.separator + "players" + File.separator
+                        + uuid + ".json");
+                file.getParentFile().mkdirs();
 
-                    try {
-                        BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-                        bw.write(PlayerDataManager.GSON.toJson(eigen));
-                        bw.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Unable to write players data file. " +
-                                "Are your permissions set right?");
-                    }
+                try {
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+                    bw.write(PlayerDataManager.GSON.toJson(eigen));
+                    bw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    ProxyServer.getInstance().getLogger().log(Level.SEVERE, "Unable to write players data file. " +
+                            "Are your permissions set right?");
                 }
             }
         });

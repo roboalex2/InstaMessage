@@ -11,11 +11,10 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.TabExecutor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CmdMsg extends Command implements TabExecutor {
 
-    private PlayerDataManager manager;
+    private final PlayerDataManager manager;
 
     public CmdMsg() {
         super("msg", "instacube.msg", "tell", "w");

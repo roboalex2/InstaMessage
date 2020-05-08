@@ -1,20 +1,14 @@
 package at.instamsg.persistent;
 
-import at.instamsg.main.Main;
 import com.google.gson.Gson;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 import java.util.logging.Level;
 
 public class PlayerDataManager {
@@ -60,7 +54,7 @@ public class PlayerDataManager {
                 + "InstaMessage" + File.separator + "players" + File.separator + uuid + ".json");
         file.getParentFile().mkdirs();
 
-        PlayerData data = null;
+        PlayerData data;
         try {
             if (file.exists()) {
                 String json = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);

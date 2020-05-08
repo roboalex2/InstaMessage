@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class CmdMsgunblock extends Command implements TabExecutor {
 
-    private PlayerDataManager manager;
+    private final PlayerDataManager manager;
 
     public CmdMsgunblock() {
         super("msgunblock", "instacube.msg", "msgunignore", "msgpardon");
